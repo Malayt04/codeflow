@@ -1,0 +1,17 @@
+# This is a config for E2B sandbox template.
+# You can use template ID (fxrxr8ncr2dlpk0ifh07) or template name (codeflow-nextjs-template) to create a sandbox:
+
+# Python SDK
+# from e2b import Sandbox, AsyncSandbox
+# sandbox = Sandbox("codeflow-nextjs-template") # Sync sandbox
+# sandbox = await AsyncSandbox.create("codeflow-nextjs-template") # Async sandbox
+
+# JS SDK
+# import { Sandbox } from 'e2b'
+# const sandbox = await Sandbox.create('codeflow-nextjs-template')
+
+team_id = "784b14c0-2800-4ba6-8e90-91df68ea493e"
+start_cmd = "/compile_page.sh"
+dockerfile = "e2b.Dockerfile"
+template_name = "codeflow-nextjs-template"
+template_id = "fxrxr8ncr2dlpk0ifh07"
