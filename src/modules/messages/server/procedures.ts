@@ -2,6 +2,7 @@ import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import { z } from "zod";
 import { inngest } from "../../../inngest/client";
 import { PrismaClient } from "@/generated/prisma";
+import { TRPCError } from "@trpc/server";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,11 @@ export const messagesRouter = createTRPCRouter({
         updatedAt: "asc",
       },
     });
+
+    if (!messages || messages.length === 0) {
+      throw new TRPCError({code:"NOT_FOUND", message:"Messages not found"})
+    }
+
     return messages;
   }),
   create: baseProcedure

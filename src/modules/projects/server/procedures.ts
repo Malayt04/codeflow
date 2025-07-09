@@ -18,6 +18,13 @@ export const projectsRouter = createTRPCRouter({
         const existingProject = await prisma.project.findUnique({
             where: {
                 id: input.id
+            },
+            include: {
+                message: {
+                    include: {
+                        fragments: true
+                    }
+                }
             }
         })
 
