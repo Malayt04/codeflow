@@ -185,7 +185,7 @@ export const codeAgentFunction = inngest.createFunction(
         data:{
           projectId: event.data.projectId,
           content: result.state.kv.get("summary")!,
-          role: "USER",
+          role: "ASSISTANT",
           type: "RESULT",
           fragments: {
             create: {

@@ -57,8 +57,8 @@ export const MessageForm = ({projectId}: Props) => {
             <form
                 onSubmit = {form.handleSubmit(onSubmit)}
                 className={cn(
-                    "relative border p-4 pt-1 rounded-xl bg-sidebar dark:bg-sidebar transition-all",
-                    isFocused && "shadow-x5",
+                    "relative border border-gray-200 dark:border-gray-700 p-4 rounded-2xl bg-white dark:bg-gray-800 transition-all shadow-sm",
+                    isFocused && "shadow-lg ring-2 ring-violet-500/20",
                     showUsage && "rounded-t-none"
                 )}
             >
@@ -73,8 +73,8 @@ export const MessageForm = ({projectId}: Props) => {
                             onBlur={() => setIsFocused(false)}
                             minRows = {2}
                             maxRows = {8}
-                            className="pt-4 resize-none border-none w-full outline-none bg-transparent"
-                            placeholder="Type a message"
+                            className="resize-none border-none w-full outline-none bg-transparent text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 text-sm leading-relaxed"
+                            placeholder="Ask me to create something amazing..."
                             onKeyDown={(e) => {
                                 if (e.key === "Enter" && !e.shiftKey) {
                                     e.preventDefault()
@@ -84,21 +84,25 @@ export const MessageForm = ({projectId}: Props) => {
                         />
                     )}
                 />
-                <div className="flex gap-x2 items-end justify-between pt-2">
-                    <div className="text-[10px] text-muted-foreground font-mono">
-                        <kbd className="ml-auto pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
-                            <span>&#8984;</span>Enter
+                <div className="flex gap-x-2 items-end justify-between pt-3">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center space-x-1">
+                        <kbd className="inline-flex h-5 select-none items-center gap-1 rounded border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 px-1.5 font-mono text-[10px] font-medium text-gray-600 dark:text-gray-400">
+                            <span>⌘</span>Enter
                         </kbd>
-                        &nbsp; to submit
+                        <span>to submit</span>
                     </div>
                     <Button
                         disabled={isDisabled}
                         className={cn(
-                            "size-8 rounded-4",
-                            isDisabled && "bg-muted-foreground border"
+                            "w-8 h-8 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white shadow-md transition-all",
+                            isDisabled && "opacity-50 cursor-not-allowed from-gray-400 to-gray-500"
                         )}
                     >
-                        <ArrowUpIcon/>
+                        {isPending ? (
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                        ) : (
+                            <ArrowUpIcon className="h-4 w-4" />
+                        )}
                     </Button>
                 </div>
             </form>
