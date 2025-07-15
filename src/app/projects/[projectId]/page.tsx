@@ -1,4 +1,5 @@
 
+import { PageLoader } from "@/components/ui/page-loader";
 import { ProjectView } from "@/modules/projects/ui/views/project-view";
 import { getQueryClient, trpc } from "@/trpc/server"
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
@@ -17,7 +18,7 @@ const Page = async ({params}: Props) => {
     void queryClient.prefetchQuery(trpc.projects.getOne.queryOptions({id: projectId}))
     return (
        <HydrationBoundary state={dehydrate(queryClient)}>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<PageLoader />}>
                 <ProjectView projectId={projectId} />
             </Suspense>
        </HydrationBoundary>

@@ -1,175 +1,230 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { useTRPC } from "@/trpc/client";
-import { useMutation} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Code, Sparkles, Zap, Github, Star, Users } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, Sparkles, Code, Zap, Globe, Palette } from "lucide-react";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Page = () => {
-  
-  const router = useRouter()
+  const router = useRouter();
   const [value, setValue] = useState("");
-  const trpc = useTRPC()
-  const createProject = useMutation(trpc.projects.create.mutationOptions({
-    onError: (error) => {
-      console.error("Error invoking background job:", error);
-      toast.error("Error invoking background job");
+  const trpc = useTRPC();
+  const createProject = useMutation(
+    trpc.projects.create.mutationOptions({
+      onError: (error) => {
+        console.error("Error invoking background job:", error);
+        toast.error("Error invoking background job");
+      },
+      onSuccess: (data) => {
+        console.log("Background job completed:", data);
+        toast.success("Background job completed");
+        router.push(`/projects/${data.id}`);
+      },
+    })
+  );
+
+  const features = [
+    {
+      icon: <Code className="h-6 w-6" />,
+      title: "AI-Powered Development",
+      description:
+        "Describe your ideas in plain English and watch them come to life",
     },
+    {
+      icon: <Zap className="h-6 w-6" />,
+      title: "Instant Preview",
+      description:
+        "See your changes in real-time as the AI builds your project",
+    },
+    {
+      icon: <Globe className="h-6 w-6" />,
+      title: "Live Sandbox",
+      description:
+        "Test and interact with your creations in a secure environment",
+    },
+    {
+      icon: <Palette className="h-6 w-6" />,
+      title: "Modern UI",
+      description: "Beautiful, responsive designs that work on any device",
+    },
+  ];
 
-    onSuccess: (data) => {
-      console.log("Background job completed:", data);
-      toast.success("Background job completed");
-      router.push(`/projects/${data.id}`)
-    }
-  }))
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 overflow-hidden">
-      {/* Background decoration */}
+    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-blue-100 dark:from-gray-950 dark:via-gray-900 dark:to-black relative overflow-hidden">
+      {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-32 w-80 h-80 bg-violet-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
-        <div className="absolute -bottom-40 -left-32 w-80 h-80 bg-cyan-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" />
+        <motion.div
+          className="absolute -top-40 -right-40 w-80 h-80 bg-violet-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
+        <motion.div
+          className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            rotate: [360, 180, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
       </div>
-      
-      {/* Grid pattern */}
-      <div 
-        className="absolute inset-0 opacity-20" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e5e7eb' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-        }}
-      />
 
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <div className="flex items-center justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-2xl blur opacity-30" />
-              <div className="relative bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
-                <Code className="h-8 w-8 text-violet-600" />
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="w-full max-w-6xl flex flex-col items-center text-center"
+        >
+          {/* Hero Section */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mb-8"
+          >
+            <div className="relative inline-block">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-violet-600 to-blue-600 rounded-2xl blur-xl opacity-30"
+                animate={{
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+              <div className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-2xl">
+                <Sparkles className="h-12 w-12 text-violet-500 mx-auto" />
               </div>
             </div>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent mb-4">
-            CodeFlow
-          </h1>
-          
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-2 max-w-2xl">
-            Transform your ideas into code with AI-powered development
-          </p>
-          
-          <p className="text-lg text-gray-500 dark:text-gray-400 max-w-xl">
-            Build, iterate, and deploy faster than ever before
-          </p>
-        </div>
+          </motion.div>
 
-        {/* Features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-4xl">
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <CardContent className="p-6 text-center">
-              <div className="bg-gradient-to-r from-violet-500 to-purple-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">AI-Powered</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Generate code with advanced AI that understands your requirements</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <CardContent className="p-6 text-center">
-              <div className="bg-gradient-to-r from-cyan-500 to-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Lightning Fast</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Real-time code generation and instant preview capabilities</p>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <CardContent className="p-6 text-center">
-              <div className="bg-gradient-to-r from-green-500 to-emerald-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Code className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Full-Stack</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">Support for modern frameworks and technologies</p>
-            </CardContent>
-          </Card>
-        </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight"
+          >
+            Build with{" "}
+            <span className="bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              AI
+            </span>
+          </motion.h1>
 
-        {/* Main CTA */}
-        <div className="w-full max-w-md">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-semibold text-center mb-6 text-gray-900 dark:text-white">
-              Start Building
-            </h2>
-            
-            <div className="space-y-4">
-              <div className="relative">
-                <Input 
-                  onChange={(e) => setValue(e.target.value)} 
-                  placeholder="Enter your project name" 
-                  value={value}
-                  className="h-12 pr-12 text-lg border-gray-300 dark:border-gray-600 focus:border-violet-500 focus:ring-violet-500 bg-white dark:bg-gray-700"
-                />
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Sparkles className="h-5 w-5 text-gray-400" />
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl leading-relaxed"
+          >
+            Describe your project in plain English and watch as AI brings it to
+            life. No code, no hassle — just pure creativity unleashed.
+          </motion.p>
+
+          {/* Input Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="w-full max-w-2xl mb-16"
+          >
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-blue-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl border border-white/20 dark:border-gray-700/50 rounded-2xl p-2 shadow-2xl">
+                <div className="flex items-center space-x-3 p-4">
+                  <Input
+                    onChange={(e) => setValue(e.target.value)}
+                    placeholder="A modern dashboard with charts and tables..."
+                    value={value}
+                    className="flex-1 h-14 text-lg bg-transparent border-none focus:ring-0 placeholder:text-gray-500 dark:placeholder:text-gray-400"
+                  />
+                  <Button
+                    onClick={() => createProject.mutate({ value: value })}
+                    disabled={createProject.isPending || !value.trim()}
+                    className="h-14 w-14 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-700 hover:to-blue-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center shadow-lg hover:shadow-xl"
+                  >
+                    <AnimatePresence mode="wait">
+                      {createProject.isPending ? (
+                        <motion.div
+                          key="loading"
+                          initial={{ opacity: 0, rotate: -90 }}
+                          animate={{ opacity: 1, rotate: 0 }}
+                          exit={{ opacity: 0, rotate: 90 }}
+                          className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"
+                        />
+                      ) : (
+                        <motion.div
+                          key="arrow"
+                          initial={{ opacity: 0, x: -5 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 5 }}
+                        >
+                          <ArrowRight className="h-6 w-6" />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Button>
                 </div>
               </div>
-              
-              <Button 
-                onClick={() => createProject.mutate({value: value})} 
-                disabled={createProject.isPending || !value.trim()}
-                className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {createProject.isPending ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
-                    <span>Creating...</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <span>Create Project</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </div>
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
 
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-3 gap-8 text-center">
-          <div className="flex flex-col items-center">
-            <div className="flex items-center space-x-1 text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              <Star className="h-6 w-6 text-yellow-500" />
-              <span>10k+</span>
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Projects Created</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="flex items-center space-x-1 text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              <Users className="h-6 w-6 text-blue-500" />
-              <span>5k+</span>
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Developers</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="flex items-center space-x-1 text-2xl font-bold text-gray-900 dark:text-white mb-1">
-              <Github className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-              <span>Open</span>
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Source</p>
-          </div>
-        </div>
+          {/* Features Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
+                whileHover={{ y: -5, scale: 1.02 }}
+                className="group"
+              >
+                <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-white/20 dark:border-gray-700/50 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                  <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-blue-500 rounded-xl flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
 
 export default Page;

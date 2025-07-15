@@ -4,6 +4,9 @@ import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
+import { dark } from "@clerk/themes";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Navbar } from "@/components/ui/navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,25 +26,27 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.React_node;
 }>) {
   return (
-    <TRPCReactProvider>
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-        <Toaster/>
-        {children}
-        </ThemeProvider>
-      </body>
-    </html>
-    </TRPCReactProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          >
+        <ClerkProvider appearance={{ baseTheme: dark }}>
+          <TRPCReactProvider>
+            <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+              <Toaster />
+              <Navbar />
+              {children}
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </ClerkProvider>
+          </body>
+        </html>
   );
 }

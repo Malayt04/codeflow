@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CodeFlow
+
+CodeFlow is an AI-powered development platform that allows users to create, preview, and manage web projects using natural language prompts. Built with Next.js, Clerk authentication, Prisma, TRPC, and a modern UI, CodeFlow enables you to describe your ideas in plain English and watch them come to life instantly.
+
+## Features
+
+- **AI-Powered Project Generation:** Describe your project in natural language and let the AI generate code and project structure for you.
+- **Live Preview & Sandbox:** Instantly preview your generated projects in a secure, isolated environment.
+- **Modern UI:** Beautiful, responsive design using Tailwind CSS and Shadcn UI components.
+- **Project Management:** View, edit, and manage multiple projects with a clean dashboard.
+- **Authentication:** Secure sign-in and sign-up with Clerk.
+- **Pricing Plans:** Flexible pricing with a free tier and paid options.
+- **Dark/Light Theme:** Seamless theme switching across the entire app.
+- **Collaboration Ready:** Built for teams and individuals alike.
+
+## Tech Stack
+
+- **Next.js 15** (App Router)
+- **TypeScript**
+- **Tailwind CSS**
+- **Shadcn UI**
+- **Clerk** (Authentication & Pricing Table)
+- **Prisma** (PostgreSQL ORM)
+- **TRPC** (Type-safe API)
+- **Framer Motion** (Animations)
+- **Lucide React** (Icons)
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/codeflow.git
+   cd codeflow
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+3. **Set up environment variables:**
+   - Copy `.env.example` to `.env` and fill in the required values (database URL, Clerk keys, OpenAI key, etc.)
+4. **Run database migrations:**
+   ```bash
+   npx prisma migrate deploy
+   ```
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+6. **Open your browser:**
+   Visit [http://localhost:3000](http://localhost:3000)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Folder Structure
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `src/app/` - Next.js app directory (pages, layouts, API routes)
+- `src/components/ui/` - Reusable UI components (Shadcn)
+- `src/modules/` - Feature modules (projects, messages, etc.)
+- `src/trpc/` - TRPC client and server setup
+- `prisma/` - Prisma schema and migrations
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](LICENSE)
