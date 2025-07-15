@@ -2,6 +2,9 @@
 
 CodeFlow is an AI-powered development platform that allows users to create, preview, and manage web projects using natural language prompts. Built with Next.js, Clerk authentication, Prisma, TRPC, and a modern UI, CodeFlow enables you to describe your ideas in plain English and watch them come to life instantly.
 
+https://github.com/user-attachments/assets/47a6d01c-13d5-4b58-bdb3-4a079c10a341
+
+
 ## Features
 
 - **AI-Powered Project Generation:** Describe your project in natural language and let the AI generate code and project structure for you.
@@ -61,6 +64,3 @@ CodeFlow is an AI-powered development platform that allows users to create, prev
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
-## License
-
-[MIT](LICENSE)
